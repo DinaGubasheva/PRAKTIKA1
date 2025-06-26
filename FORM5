@@ -1,0 +1,49 @@
+namespace MADINA3
+{
+    public partial class Form5 : Form
+    {
+        public Form5()
+        {
+            InitializeComponent();
+        }
+
+
+        private string Function(double coefficientA, double coefficientB, double xValue)
+        {
+            return (coefficientA * xValue + coefficientB).ToString();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form4 form4 = new Form4();
+            form4.Show();
+            this.Hide();
+        }
+
+        private void calculateButton_Click_1(object sender, EventArgs e)
+        {
+            double a, b, x;
+            if (!double.TryParse(firstTextBox.Text, out a))
+            {
+                MessageBox.Show("Пожалуйста, введите корректное число для коэффициента A.", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                firstTextBox.Focus();
+                return;
+            }
+            if (!double.TryParse(secondTextBox.Text, out b))
+            {
+                MessageBox.Show("Пожалуйста, введите корректное число для коэффициента B.", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                secondTextBox.Focus();
+                return;
+            }
+            if (!double.TryParse(xTextBox.Text, out x))
+            {
+                MessageBox.Show("Пожалуйста, введите корректное число для значения x.", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                xTextBox.Focus();
+                return;
+            }
+            string result = Function(a, b, x);
+
+            resultTextBox.Text = result;
+        }
+    }
+}
