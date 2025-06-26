@@ -1,0 +1,73 @@
+namespace MADINA3
+{
+    public partial class Form1 : Form 
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+
+        private void BtnCheck_Click(object sender, EventArgs e)
+        {
+            double number1, number2, number3;
+
+            if (!double.TryParse(textBoxNum1.Text, out number1))
+            {
+                MessageBox.Show("Пожалуйста, введите корректное число для первого поля.", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (!double.TryParse(textBoxNum2.Text, out number2))
+            {
+                MessageBox.Show("Пожалуйста, введите корректное число для второго поля.", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!double.TryParse(textBoxNum3.Text, out number3))
+            {
+                MessageBox.Show("Пожалуйста, введите корректное число для третьего поля.", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string resultText = "Числа, принадлежащие полуинтервалу (3, 7]:\n";
+            bool foundNumbers = false;
+
+            if (IsNumberInInterval(number1))
+            {
+                resultText += $"{number1}\n";
+                foundNumbers = true;
+            }
+
+            if (IsNumberInInterval(number2))
+            {
+                resultText += $"{number2}\n";
+                foundNumbers = true;
+            }
+
+            if (IsNumberInInterval(number3))
+            {
+                resultText += $"{number3}\n";
+                foundNumbers = true;
+            }
+
+            if (foundNumbers)
+            {
+                labelRes.Text = resultText;
+            }
+            else
+            { 
+                labelRes.Text = "Нет чисел, принадлежащих полуинтервалу (3, 7].";
+            }
+        }
+        private bool IsNumberInInterval(double number)
+        {
+            return number > 3 && number <= 7;
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            divisorsListBox form2 = new divisorsListBox();
+            form2.Show();
+            this.Hide();
+        }
+    }
+}
