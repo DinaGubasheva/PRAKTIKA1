@@ -1,0 +1,66 @@
+using MADINA3;
+using System.Runtime.CompilerServices;
+
+namespace MADINA3
+{
+    public partial class divisorsListBox : Form
+    {
+        public divisorsListBox()
+        {
+            InitializeComponent();
+        }
+       
+
+        private void calculateButton_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+            if (string.IsNullOrWhiteSpace(numberTextBox.Text)) 
+            {
+                MessageBox.Show("Пожалуйста, введите число.", "Ошибка ввода");
+                return;
+            }
+            if (!int.TryParse(numberTextBox.Text, out int number))
+            {
+                MessageBox.Show("Некорректный ввод числа. Введите целое число.", "Ошибка ввода");
+                return;
+            }
+            if (number <= 0) 
+            {
+                MessageBox.Show("Пожалуйста, введите положительное целое число.", "Ошибка ввода");
+                return;
+            }
+
+            List<int> divisors = FindDivisorsDescending(number);
+
+            foreach (int divisor in divisors)
+            {
+                listBox1.Items.Add(divisor);
+            }
+        }
+        private List<int> FindDivisorsDescending(int number)
+        {                
+            List<int> divisors = new List<int>();
+            for (int i = 1; i <= number; i++)
+            {
+                if (number % i == 0) 
+                {
+                    divisors.Add(i); 
+                }
+            }
+            return divisors;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Hide();
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form3 form3 = new Form3();
+            form3.Show();
+            this.Hide();
+        }
+    }
+}
