@@ -1,0 +1,110 @@
+namespace MADINA3
+{
+    public partial class Form3 : Form 
+    {
+        public Form3()
+        {
+            InitializeComponent();
+        }
+
+        private void calculateButton_Click_1(object sender, EventArgs e)
+        {
+            string matrixInput = matrixTextBox.Text;
+            if (string.IsNullOrWhiteSpace(matrixInput)) 
+            {
+                MessageBox.Show("Пожалуйста, введите матрицу в текстовое поле.");
+                return;
+            }
+
+            string[] rows = matrixInput.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            int n = rows.Length; 
+            int[,] matrix = new int[n, n]; 
+
+            try
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    string[] elements = rows[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (elements.Length != n)
+                    {
+                        MessageBox.Show($"Строка {i + 1} содержит неверное количество элементов. Матрица должна быть квадратной {n}x{n}.");
+                        return;
+                    }
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (!int.TryParse(elements[j], out matrix[i, j]))
+                        {
+                            MessageBox.Show($"Неверный формат числа в строке {i + 1}, столбце {j + 1}. Ожидается целое число.");
+                            return;
+                        }
+                        if (i == j && matrix[i, j] != 0)
+                        {
+                            MessageBox.Show($"Элемент на главной диагонали (строка {i + 1}, столбец {j + 1}) должен быть 0.");
+                            return;
+                        }
+                        if (i != j && (matrix[i, j] != 0 && matrix[i, j] != 1 && matrix[i, j] != 2))
+                        {
+                            MessageBox.Show($"Неверное значение в строке {i + 1}, столбец {j + 1}. Допустимые значения: 0, 1, 2.");
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при обработке матрицы: {ex.Message}");
+                return;
+            }
+
+
+            int winLossCount = 0;
+            List<int> undefeatedTeams = new List<int>();
+
+            for (int i = 0; i < n; i++)
+            {
+                int wins = 0;
+                int losses = 0;
+                for (int j = 0; j < n; j++)
+                {
+                    if (i == j) continue;
+                    int points = matrix[i, j];
+                    if (points == 2)
+                    {
+                        wins++;
+                    }
+                    else if (points == 0)
+                    {
+                        losses++;
+                    }
+                }
+
+                if (wins > losses)
+                {
+                    winLossCount++;
+                }
+                if (losses == 0)
+                {
+                    undefeatedTeams.Add(i + 1);
+                }
+            }
+
+            winLossCountLabel.Text = $"Команд с побед больше, чем поражений: {winLossCount}";
+            undefeatedTeamsLabel.Text = "Номера команд без поражений: " + (undefeatedTeams.Count > 0 ? string.Join(", ", undefeatedTeams) : "нет");
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            divisorsListBox form2 = new divisorsListBox();
+            form2.Show();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form4 form4 = new Form4();
+            form4.Show();
+            this.Hide();
+        }
+    }
+}
